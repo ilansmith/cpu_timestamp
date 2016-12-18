@@ -47,7 +47,7 @@ static inline void prefetch(void *x)
 int main(int argc, char **argv)
 {
 	unsigned long long start = 0, end = 0;
-	unsigned long x;
+	volatile unsigned long x;
 
 #if !defined __i386__ && !defined __x86_64__
 	printf("not supported\n");
