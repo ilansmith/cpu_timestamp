@@ -70,7 +70,7 @@ int main(int argc, char **argv)
 	return -1;
 #endif
 
-	set_cpu_affinity(0);
+	set_cpu_affinity(1);
 
 	measure_rdtsc();
 
