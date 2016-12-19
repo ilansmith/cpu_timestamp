@@ -10,6 +10,8 @@
 #define L1_CACHE_BYTES		64
 #endif
 
+#define TEST_CYCLES 10000000
+
 /* Read time stamp couter */
 static void set_cpu_affinity(int cpu)
 {
@@ -44,6 +46,20 @@ static inline void prefetch(void *x)
 #endif
 }
 
+static void measure_rdtsc(void)
+{
+	unsigned long long start = 0, end = 0, mid = 0;
+	register int i;
+
+	gettimeoftsc(&start);
+	for (i = 0; i < TEST_CYCLES; i++)
+		gettimeoftsc(&mid);
+	gettimeoftsc(&end);
+
+	printf("gettimeoftsc latency: %g\n",
+		((double)(end - start))/TEST_CYCLES);
+}
+
 int main(int argc, char **argv)
 {
 	unsigned long long start = 0, end = 0;
@@ -55,6 +71,8 @@ int main(int argc, char **argv)
 #endif
 
 	set_cpu_affinity(0);
+
+	measure_rdtsc();
 
 	prefetch(&set_cpu_affinity);
 	prefetch(&gettimeoftsc);
